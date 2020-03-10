@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://250786898.github.io</id>
     <title>彭美泉个人博客</title>
-    <updated>2020-03-10T09:03:42.976Z</updated>
+    <updated>2020-03-10T09:32:18.702Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://250786898.github.io"/>
     <link rel="self" href="https://250786898.github.io/atom.xml"/>
@@ -10,4 +10,148 @@
     <logo>https://250786898.github.io/images/avatar.png</logo>
     <icon>https://250786898.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 彭美泉个人博客</rights>
+    <entry>
+        <title type="html"><![CDATA[前端为什么要使用枚举]]></title>
+        <id>https://250786898.github.io/post/qian-duan-wei-shi-me-yao-shi-yong-mei-ju/</id>
+        <link href="https://250786898.github.io/post/qian-duan-wei-shi-me-yao-shi-yong-mei-ju/">
+        </link>
+        <updated>2020-03-10T09:21:19.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-枚举的业务场景与遇到的问题">一、枚举的业务场景与遇到的问题</h2>
+<p>我们在日常业务开发中，经常遇到枚举，如商品状态、页面状态、审核状态等，翻阅以往的一些业务代码，会发现很多地方都是这么写的：</p>
+<pre><code>&lt;span v-if=&quot;status == 0&quot;&gt;审核中&lt;/span&gt;
+&lt;span v-else-if=&quot;status == 1&quot;&gt;审核通过&lt;/span&gt;
+</code></pre>
+<p>以上代码其实存在以下问题：</p>
+<ul>
+<li>
+<p>魔数化：一旦有个数值改动，就得全局替换匹配</p>
+</li>
+<li>
+<p>差语义化：无法直观通过值推导出含义<br>
+于是，进阶做法我们想的是通过引入常量，如：</p>
+</li>
+</ul>
+<pre><code>&lt;span v-if=&quot;status == STATUS.AUDITING&quot;&gt;审核中&lt;/span&gt;
+&lt;span v-else-if=&quot;status == STATUS.PASS&quot;&gt;审核通过&lt;/span&gt;
+</code></pre>
+<p>然而，我们其实还会遇到以下场景：</p>
+<p>需要拿到枚举值获得枚举含义<br>
+特别是在列表中尤其常见。我们通常的做法是：建立过滤器，建立Map，如：</p>
+<pre><code>export default {
+    // ...
+    filters: {
+        statusName: status =&gt; {
+            const map = {
+                [STATUS.AUDITING]: '审核中',
+                [STATUS.PASS]: '审核通过'
+            }
+            return map[status] || ''
+        }
+    }
+}
+</code></pre>
+<p>这样子虽然也挺方便，但是仍然不够完美：</p>
+<p>定义隔离：枚举值和枚举含义分离，还是会带来一定维护上的问题</p>
+<h2 id="二-如何改善">二、如何改善？</h2>
+<p>我们期望的应该是定义能够一体化，而不是分散化。参考Java里的枚举做法，其实好很多：</p>
+<pre><code>public enum AgingTypeEnum {
+    ALL(0, &quot;全部&quot;),
+    SPECIAL(1, &quot;特批时效&quot;),
+    PLATFORM(2, &quot;平台定义&quot;);
+    // ...
+}
+</code></pre>
+<p>但是，虽然TS里也实现了<strong>enum</strong>，但其实做法还是有些不一样，还是不那么利于我们的业务场景。因为TS里的enum，也不是枚举值与含义定义一体化。对于我们的业务场景，可能下面这么做更利于我们的使用：</p>
+<pre><code>const STATUS = createEnum({
+    AUDITING: [0, '审核中'],
+    PASS: [1, '审核通过']
+})
+
+export default {
+    // ...
+    created() {
+        this.STATUS = STATUS
+    }
+}
+</code></pre>
+<p><span v-if="status == STATUS.AUDITING">审核中</span><br>
+<span v-else-if="status == STATUS.PASS">审核通过</span></p>
+<pre><code>&lt;p&gt;当前状态：{STATUS.getDescFromValue(syncData.status)}&lt;/p&gt;
+&lt;p&gt;也可用通过枚举名称获取描述：{STATUS.getDesc('AUDITING')}&lt;/p&gt;
+</code></pre>
+<p>如此一来，具有以下好处：</p>
+<ul>
+<li>
+<p>去魔数化：后端假如改了审核中状态为2，那么我们就只需要在开头把0改为2即可</p>
+</li>
+<li>
+<p>语义化：通过<strong>STATUS.AUDITING</strong>我们就可以大概猜出含义</p>
+</li>
+<li>
+<p>定义一体化：枚举值和枚举描述写在了一起，不分散</p>
+</li>
+<li>
+<p>使用方便：无需额外的过滤器，就可以通过<strong>枚举名称/枚举值</strong>获得枚举含义<br>
+三、实现<br>
+实现代码如下：</p>
+</li>
+</ul>
+<pre><code>/**
+ * 枚举定义工具
+ * 示例：
+ * const STATUS = createEnum({
+ *     AUDIT_WAIT: [1, '审核中'],
+ *     AUDIT_PASS: [2, '审核通过']
+ * })
+ * 获取枚举值：STATUS.AUDIT_WAIT
+ * 获取枚举描述：STATUS.getDesc('AUDIT_WAIT')
+ * 通过枚举值获取描述：STATUS.getDescFromValue(STATUS.WAIT)
+ * 
+ */
+
+interface EnumDefinition {
+    [enumName: string]: [number, string]
+}
+
+export default function createEnum(definition: EnumDefinition) {
+    const strToValueMap = {}
+    const numToDescMap = {}
+    for (const enumName of Object.keys(definition)) {
+        const [value, desc]: [number, string] = definition[enumName]
+        strToValueMap[enumName] = value
+        numToDescMap[value] = desc
+    }
+    return {
+        ...strToValueMap,
+        getDesc(enumName: string): string {
+            return definition[enumName] &amp;&amp; definition[enumName][1] || ''
+        },
+        getDescFromValue(value: number): string {
+            return numToDescMap[value] || ''
+        }
+    }
+}
+</code></pre>
+<p>非TS版：</p>
+<pre><code>export default function createEnum(definition) {
+    const strToValueMap = {}
+    const numToDescMap = {}
+    for (const enumName of Object.keys(definition)) {
+        const [value, desc] = definition[enumName]
+        strToValueMap[enumName] = value
+        numToDescMap[value] = desc
+    }
+    return {
+        ...strToValueMap,
+        getDesc(enumName) {
+            return definition[enumName] &amp;&amp; definition[enumName][1] || ''
+        },
+        getDescFromValue(value) {
+            return numToDescMap[value] || ''
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
 </feed>
