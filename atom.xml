@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://250786898.github.io</id>
     <title>彭美泉个人博客</title>
-    <updated>2020-03-11T01:00:58.706Z</updated>
+    <updated>2020-03-18T02:53:21.759Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://250786898.github.io"/>
     <link rel="self" href="https://250786898.github.io/atom.xml"/>
@@ -11,41 +11,12 @@
     <icon>https://250786898.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 彭美泉个人博客</rights>
     <entry>
-        <title type="html"><![CDATA[今日看点]]></title>
-        <id>https://250786898.github.io/post/jin-ri-kan-dian/</id>
-        <link href="https://250786898.github.io/post/jin-ri-kan-dian/">
+        <title type="html"><![CDATA[小程序性能优化，项目规划图]]></title>
+        <id>https://250786898.github.io/post/xiao-cheng-xu-xing-neng-you-hua-xiang-mu-gui-hua-tu/</id>
+        <link href="https://250786898.github.io/post/xiao-cheng-xu-xing-neng-you-hua-xiang-mu-gui-hua-tu/">
         </link>
-        <updated>2020-03-11T01:00:24.000Z</updated>
-        <content type="html"><![CDATA[<p>今日看点<br>
-✦ 支付宝App首页大改版，升级为数字生活开放平台<br>
-✦ 阿里达摩院宣布成立XG实验室，聚焦5G技术和应用协同研发<br>
-✦ 宜家家居天猫旗舰店正式上线，初期服务江浙沪皖地区消费者<br>
-✦ 滴滴在成都、杭州上线跑腿服务，首批跑腿员为代驾司机<br>
-✦ 今日研报：艾瑞咨询发布《2020年中国保险科技行业研究报告》<br>
-✦ 推荐阅读：高级产品经理都在用的行业分析法</p>
-<p>国内要闻<br>
-1、支付宝App首页大改版，升级为数字生活开放平台<br>
-2、微信：通过小程序直播，部分品牌3月8日订单量增长近12倍<br>
-3、消息称字节跳动将推出“飞书文档”独立App<br>
-4、华为将于3月26日举办华为P40系列全球线上发布会<br>
-5、雷军：小米品牌全面放开价格限制，全力以赴冲击高端市场<br>
-6、联通沃云云市场“百川计划”正式开启，吹响合作伙伴线上招募集结号<br>
-7、一点资讯汽车事业部原总经理杜伟加盟知乎，任职知乎汽车总编辑<br>
-8、民营钢企敬业集团正式收购英国钢铁，未来十年投资12亿英镑<br>
-9、网易启动春季实习生招聘，1500个岗位实现无接触招聘<br>
-10、北京航天飞行控制中心圆满完成我国首次火星探测任务无线联试</p>
-<p>区块链<br>
-1、易居中国与新派公寓达成合作，社区巡更链将应用于新派公寓旗下场所<br>
-2、中国移动推出“五源计划”，将建设区块链基础平台等在内的五大平台<br>
-3、山东中行引入区块链技术成功办理出口融资业务<br>
-4、上海市静安区体育局推出基于区块链的小程序，鼓励居民居家健身<br>
-5、北京银保监局提示疫情期间四类骗局，包括蹭“区块链”概念的投资理财型诈骗</p>
-<p>国际视角<br>
-1、盖茨基金会联合两家机构捐赠1.25亿美元加快冠状病毒治疗方案研发<br>
-2、Twitter与激进投资者达成协议：任命三名新董事，获银湖10亿美元投资<br>
-3、Facebook再任命两名女性董事，女性占董事会40%<br>
-4、英伟达取消GTC线上直播：以“新闻稿”发布安培显卡<br>
-5、福布斯：“黑色星期一”，全球10位最富有富豪身家下降近380亿美元</p>
+        <updated>2020-03-18T02:52:00.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://250786898.github.io/post-images/1584499944018.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
